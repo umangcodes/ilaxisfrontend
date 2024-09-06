@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import Image from 'next/image';
 import { Logo } from "@/assets/images/index";
 import { db } from '@/utils/db/config.js';
+import { collection, addDoc } from 'firebase/firestore';
 
 // Phone number formatting function
 const formatPhoneNumber = (value) => {
