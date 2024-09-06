@@ -109,7 +109,7 @@ const CateringForm = () => {
           </ul>
         </div>
         <div className="flex flex-col">
-          <label htmlFor="date" className="mb-1 text-gray-700">Today's Date</label>
+          <label htmlFor="date" className="mb-1 text-gray-700">Today Date</label>
           <input
             id="date"
             name="date"
