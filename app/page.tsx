@@ -95,7 +95,7 @@ const CateringForm = () => {
           <Image src={Logo} alt="Ilaxis Catering Logo" />
         </div>
         <div className='flex flex-col justify-center items-center pl-2'>
-          <h1 className="text-2xl font-bold -mb-1">Ilaxi's Food Services</h1>
+          <h1 className="text-2xl font-bold -mb-1">Ilaxis Food Services</h1>
           <h2 className='text-sm mb-2'>Ordering Logging</h2>
         </div>
       </header>
