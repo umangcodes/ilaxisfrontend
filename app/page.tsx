@@ -5,7 +5,6 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Image from 'next/image';
 import { Logo } from "@/assets/images/index";
-import { doc, setDoc , collection, addDoc} from 'firebase/firestore';
 import { db } from '@/utils/db/config.js';
 
 // Phone number formatting function
