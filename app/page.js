@@ -24,12 +24,52 @@ const formatPhoneNumber = (value) => {
   return `+1 (${formatted.slice(0, 3)}) ${formatted.slice(3, 6)}-${formatted.slice(6, 10)}`;
 };
 
+// Function to format date in "Day, DD/MM/YYYY" format
+const formatDate = (date) => {
+  const options = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' };
+  return date.toLocaleDateString('en-US', options).replace(/(\d+)\/(\d+)\/(\d+)/, '$2/$1/$3');
+};
+
+// Function to get the current EST date based on 9:30 AM logic and skip weekends
+const getDateForForm = () => {
+  const now = new Date();
+  const estOffset = -5 * 60; // Offset for EST (GMT-5)
+  const currentEstTime = new Date(now.getTime() + estOffset * 60 * 1000);
+
+  // Get 9:30 AM EST for today's date
+  const nineThirtyAM = new Date(now);
+  nineThirtyAM.setUTCHours(14, 30, 0, 0); // Set the time to 9:30 AM EST (14:30 UTC)
+
+  let displayDate;
+
+  // If current time is after 9:30 AM EST, use the next day
+  if (currentEstTime > nineThirtyAM) {
+    const tomorrow = new Date(now);
+    tomorrow.setDate(now.getDate() + 1);
+    displayDate = tomorrow;
+  } else {
+    displayDate = now;
+  }
+
+  // Check if the current day is Saturday or Sunday
+  const dayOfWeek = displayDate.getDay();
+  if (dayOfWeek === 6) {
+    // If it's Saturday, set the date to Monday
+    displayDate.setDate(displayDate.getDate() + 2);
+  } else if (dayOfWeek === 0) {
+    // If it's Sunday, set the date to Monday
+    displayDate.setDate(displayDate.getDate() + 1);
+  }
+
+  return formatDate(displayDate);
+};
+
+
 const CateringForm = () => {
   const [date, setDate] = useState('');
 
   useEffect(() => {
-    const today = new Date().toLocaleDateString();
-    setDate(today);
+    setDate(getDateForForm());
   }, []);
 
   const formik = useFormik({
@@ -110,7 +150,7 @@ const CateringForm = () => {
           </ul>
         </div>
         <div className="flex flex-col">
-          <label htmlFor="date" className="mb-1 text-gray-700">Today Date</label>
+          <label htmlFor="date" className="mb-1 text-gray-700">Service Date</label>
           <input
             id="date"
             name="date"
