@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { Logo } from "@/assets/images/index";
 import { db } from '@/utils/db/config.js';
 import { collection, addDoc } from 'firebase/firestore';
-
+import { useRouter } from 'next/navigation';
 // Phone number formatting function
 const formatPhoneNumber = (value) => {
   const cleaned = value.replace(/[^+\d]/g, '');
@@ -66,7 +66,9 @@ const getDateForForm = () => {
 
 
 const CateringForm = () => {
+  const router = useRouter()
   const [date, setDate] = useState('');
+  
 
   useEffect(() => {
     setDate(getDateForForm());
@@ -109,11 +111,10 @@ const CateringForm = () => {
         const parsedData = JSON.parse(jsonData);
         console.log(parsedData)
         // Send parsed JSON data to Firestore
-        const docRef = await addDoc(collection(db, 'orders'), parsedData);
-        console.log(docRef)
-        alert('Order submitted successfully! |For other changes please contact your point of contact. ');
+        await addDoc(collection(db, 'orders'), parsedData);
+        router.push("/success")
       } catch (error) {
-        console.error('Error adding document: ', error);
+        router.push("/error")
       }
     },
   });
